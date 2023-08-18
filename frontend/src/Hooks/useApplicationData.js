@@ -14,7 +14,7 @@ const useApplicationData = () => {
   const showNotification = favorites.length > 0;
 
   // filter photos
-  const updateToFavPhotoIds = (id) => {
+  const addToFavPhotos = (id) => {
     if (favorites.includes(id)) {
       const result = favorites.filter((item) => item !== id);
       setFavorites(result);
@@ -32,18 +32,13 @@ const useApplicationData = () => {
     }
   };
 
-  //when close button on modal is clicked, clear clickedPhoto array.
-  const onClosePhotoDetailsModal = () => {
-    setClickedPhoto([]);
-  };
-
   // get photos from backend
 
   const getPhotos = (topicID) => {
     if (topicID === 'logo') {
-      setSelectedTopic([]); // No specific topic selected
+      setSelectedTopic([]);
     } else {
-      setSelectedTopic([topicID]); // Set the selected topic
+      setSelectedTopic([topicID]);
     }
   };
 
@@ -83,6 +78,11 @@ const useApplicationData = () => {
       .catch((e) => console.error('There was an error', e));
   }, [topicData]);
 
+  //when close button on modal is clicked, clear clickedPhoto array.
+  const onClosePhotoDetailsModal = () => {
+    setClickedPhoto([]);
+  };
+
   const state = {
     favorites,
     clickedPhoto,
@@ -93,7 +93,7 @@ const useApplicationData = () => {
 
   return {
     state,
-    updateToFavPhotoIds,
+    addToFavPhotos,
     setPhotoSelected,
     onClosePhotoDetailsModal,
     getPhotos,
