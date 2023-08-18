@@ -16,7 +16,7 @@ const HomeRoute = (props) => {
         favorites={props.favorites}
         toggleFavorite={props.toggleFavorite}
         clickedPhoto={props.clickedPhoto}
-        toggleModal={props.toggleModal}
+        expandModal={props.expandModal}
       />
     </div>
   );

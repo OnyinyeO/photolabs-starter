@@ -13,7 +13,7 @@ const PhotoList = (props) => {
         toggleFavorite={() => props.toggleFavorite(photo.id)}
         selected={selected}
         clickedPhoto={props.clickedPhoto}
-        toggleModal={() => props.toggleModal(photo.id)}
+        expandModal={() => props.expandModal(photo.id)}
       />
     );
   });

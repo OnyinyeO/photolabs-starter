@@ -22,13 +22,13 @@ const App = () => {
         clickedPhoto={state.clickedPhoto}
         toggleFavorite={addToFavPhotos}
         showNotification={state.showNotification}
-        toggleModal={setPhotoSelected}
+        expandModal={setPhotoSelected}
         getPhotos={getPhotos}
       />
       {state.clickedPhoto.length > 0 && (
         <PhotoDetailsModal
           clickedPhoto={state.clickedPhoto}
-          toggleModal={onClosePhotoDetailsModal}
+          expandModal={onClosePhotoDetailsModal}
           favorites={state.favorites}
           toggleFavorite={addToFavPhotos}
         />

@@ -9,10 +9,6 @@ const useApplicationData = () => {
   const [clickedPhoto, setClickedPhoto] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState([]);
 
-  //if favorites state has at least 1 photo, then show notification.
-
-  const showNotification = favorites.length > 0;
-
   // filter photos
   const addToFavPhotos = (id) => {
     if (favorites.includes(id)) {
@@ -86,7 +82,7 @@ const useApplicationData = () => {
   const state = {
     favorites,
     clickedPhoto,
-    showNotification,
+    showNotification: favorites.length > 0,
     photoData,
     topicData,
   };

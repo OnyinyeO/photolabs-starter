@@ -6,14 +6,14 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import '../styles/PhotoListItem.scss';
 
 const PhotoDetailsModal = (props) => {
-  const { clickedPhoto, toggleModal, favorites, toggleFavorite } = props;
+  const { clickedPhoto, expandModal, favorites, toggleFavorite } = props;
 
   const similarPhotos = clickedPhoto[0]?.similarPhotos ?? [];
 
   return (
     <div className='photo-details-modal'>
       <button className='photo-details-modal__close-button'>
-        <img src={closeSymbol} alt='close symbol' onClick={toggleModal} />
+        <img src={closeSymbol} alt='close symbol' onClick={expandModal} />
       </button>
 
       {/* Modal content */}
@@ -39,7 +39,7 @@ const PhotoDetailsModal = (props) => {
             favorites={favorites}
             toggleFavorite={toggleFavorite}
             clickedPhoto={clickedPhoto}
-            toggleModal={toggleModal}
+            expandModal={expandModal}
           />
         </div>
       </div>

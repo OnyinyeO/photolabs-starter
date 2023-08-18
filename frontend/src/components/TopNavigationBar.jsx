@@ -12,8 +12,8 @@ const TopNavigation = (props) => {
         PhotoLabs
       </p>
       <TopicList topics={props.topics} getPhotos={getPhotos} />
-      <div className='fav-badge'>
-        <FavIcon displayAlert={showNotification} />
+      <div className={`fav-badge ${showNotification ? 'active' : ''}`}>
+        <FavIcon displayAlert={showNotification} selected={showNotification} />
         {showNotification && <span>{props.favorites.length}</span>}
       </div>
     </div>

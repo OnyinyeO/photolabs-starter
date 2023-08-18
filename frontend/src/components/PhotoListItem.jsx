@@ -13,7 +13,7 @@ const PhotoListItem = (props) => {
         className='photo-list__image'
         src={props.photo.urls.regular}
         alt='sample image'
-        onClick={props.toggleModal}
+        onClick={props.expandModal}
       />
       <div className='photo-list__user-details '>
         <img
