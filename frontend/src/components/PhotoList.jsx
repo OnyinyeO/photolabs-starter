@@ -3,7 +3,7 @@ import PhotoListItem from './PhotoListItem';
 import '../styles/PhotoList.scss';
 
 const PhotoList = (props) => {
-  const photoListItemsArray = props.photos.map((photo) => {
+  const photoItems = props.photos.map((photo) => {
     const selected = props.favorites.includes(photo.id);
 
     return (
@@ -18,7 +18,7 @@ const PhotoList = (props) => {
     );
   });
 
-  return <ul className='photo-list'>{photoListItemsArray}</ul>;
+  return <ul className='photo-list'>{photoItems}</ul>;
 };
 
 export default PhotoList;
