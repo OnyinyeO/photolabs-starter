@@ -1,77 +1,24 @@
 import React from 'react';
 import PhotoListItem from './PhotoListItem';
-
 import '../styles/PhotoList.scss';
 
-const sampleDataForPhotoList = [
-  {
-    id: '1',
-    location: {
-      city: 'Montreal',
-      country: 'Canada',
-    },
-    urls: {
-      full: `${process.env.PUBLIC_URL}/Image-1-Full.jpeg`,
-      regular: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
-    },
-    user: {
-      id: '1',
-      username: 'exampleuser',
-      name: 'Joe Example',
-      profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-    },
-  },
-  {
-    id: '2',
-    location: {
-      city: 'Toronto',
-      country: 'Canada',
-    },
-    urls: {
-      full: `${process.env.PUBLIC_URL}/Image-2-Full.jpeg`,
-      regular: `${process.env.PUBLIC_URL}/Image-2-Regular.jpeg`,
-    },
-    user: {
-      id: '2',
-      username: 'exampleuser',
-      name: 'Joe Example',
-      profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-    },
-  },
-  {
-    id: '3',
-    location: {
-      city: 'Ottawa',
-      country: 'Canada',
-    },
-    urls: {
-      full: `${process.env.PUBLIC_URL}/Image-3-Full.jpeg`,
-      regular: `${process.env.PUBLIC_URL}/Image-3-Regular.jpeg`,
-    },
-    user: {
-      id: '3',
-      username: 'exampleuser',
-      name: 'Joe Example',
-      profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-    },
-  },
-];
+const PhotoList = (props) => {
+  const photoListItemsArray = props.photos.map((photo) => {
+    const selected = props.favorites.includes(photo.id);
 
-const PhotoList = () => {
-  return (
-    <ul className='photo-list'>
-      {sampleDataForPhotoList.map((photo) => (
-        <PhotoListItem
-          key={photo.id}
-          imageSource={photo.urls.regular}
-          profile={photo.user.profile}
-          username={photo.user.name}
-          city={photo.location.city}
-          country={photo.location.country}
-        />
-      ))}
-    </ul>
-  );
+    return (
+      <PhotoListItem
+        key={Number(photo.id)}
+        photo={photo}
+        toggleFavorite={() => props.toggleFavorite(photo.id)}
+        selected={selected}
+        clickedPhoto={props.clickedPhoto}
+        toggleModal={() => props.toggleModal(photo.id)}
+      />
+    );
+  });
+
+  return <ul className='photo-list'>{photoListItemsArray}</ul>;
 };
 
 export default PhotoList;
