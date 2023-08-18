@@ -1,6 +1,5 @@
 import React from 'react';
 import TopicListItem from './TopicListItem';
-import FavBadge from './FavBadge';
 import '../styles/TopicList.scss';
 
 const TopicList = (props) => {
@@ -9,17 +8,12 @@ const TopicList = (props) => {
       <TopicListItem
         key={Number(topic.id)}
         topic={topic}
-        getPhotosOfTopic={props.getPhotosOfTopic}
+        getPhotos={props.getPhotos}
       />
     );
   });
 
-  return (
-    <div className='top-nav-bar__topic-list'>
-      {topicListItemArray}
-      <FavBadge toggleNotification={props.toggleNotification} />
-    </div>
-  );
+  return <div className='top-nav-bar__topic-list'>{topicListItemArray}</div>;
 };
 
 export default TopicList;

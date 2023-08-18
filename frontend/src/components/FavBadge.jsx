@@ -3,13 +3,10 @@ import FavIcon from './FavIcon';
 
 import '../styles/FavBadge.scss';
 
-const FavBadge = ({ toggleNotification }) => {
+const FavBadge = ({ showNotification }) => {
   return (
     <div className='fav-badge'>
-      <FavIcon
-        selected={toggleNotification}
-        displayAlert={toggleNotification}
-      />
+      <FavIcon className='fav-badge__count ' displayAlert={showNotification} />
     </div>
   );
 };

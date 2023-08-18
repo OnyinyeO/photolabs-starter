@@ -9,6 +9,11 @@ const useApplicationData = () => {
   const [clickedPhoto, setClickedPhoto] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState([]);
 
+  //if favorites state has at least 1 photo, then show notification.
+
+  const showNotification = favorites.length > 0;
+
+  // filter photos
   const updateToFavPhotoIds = (id) => {
     if (favorites.includes(id)) {
       const result = favorites.filter((item) => item !== id);
@@ -32,41 +37,41 @@ const useApplicationData = () => {
     setClickedPhoto([]);
   };
 
-  //if favorites state has at least 1 photo, then show notification.
-  const isNotificationActive = favorites.length > 0;
+  // get photos from backend
 
-  /*
-GET PHOTOS AND TOPICS FROM API
-*/
-  //GET PHOTOS FROM API BASED ON THE CLICKED TOPIC/LOGO
-  const getPhotosOfTopic = (topicID) => {
+  const getPhotos = (topicID) => {
     if (topicID === 'logo') {
-      setSelectedTopic([]);
+      setSelectedTopic([]); // No specific topic selected
     } else {
-      setSelectedTopic([topicID]);
+      setSelectedTopic([topicID]); // Set the selected topic
     }
   };
 
   useEffect(() => {
     if (selectedTopic.length === 0) {
+      // Fetch all photos when no specific topic is selected
       fetch(`${BaseUrl}/api/photos`)
         .then((response) => response.json())
         .then((data) => {
           setPhotoData([...data]);
+        })
+        .catch((error) => {
+          console.error('Error fetching photos:', error);
         });
-      return;
-    }
-    if (selectedTopic.length > 0) {
+    } else {
+      // Fetch photos based on the selected topic
       fetch(`${BaseUrl}/api/topics/photos/${selectedTopic[0]}/`)
         .then((response) => response.json())
         .then((data) => {
           setPhotoData([...data]);
+        })
+        .catch((error) => {
+          console.error('Error fetching topic-specific photos:', error);
         });
-      return;
     }
   }, [selectedTopic]);
 
-  //GET TOPICS FROM API
+  //get topics from backend
   useEffect(() => {
     fetch(`${BaseUrl}/api/topics`)
       .then((response) => {
@@ -81,7 +86,7 @@ GET PHOTOS AND TOPICS FROM API
   const state = {
     favorites,
     clickedPhoto,
-    isNotificationActive,
+    showNotification,
     photoData,
     topicData,
   };
@@ -91,7 +96,7 @@ GET PHOTOS AND TOPICS FROM API
     updateToFavPhotoIds,
     setPhotoSelected,
     onClosePhotoDetailsModal,
-    getPhotosOfTopic,
+    getPhotos,
   };
 };
 

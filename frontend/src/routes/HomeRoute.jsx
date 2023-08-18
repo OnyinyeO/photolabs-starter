@@ -1,15 +1,15 @@
 import React from 'react';
 import TopNavigation from 'components/TopNavigationBar';
 import PhotoList from 'components/PhotoList';
-import '../styles/HomeRoute.scss';
 
 const HomeRoute = (props) => {
   return (
     <div className='home-route'>
       <TopNavigation
         topics={props.topics}
-        toggleNotification={props.toggleNotification}
-        getPhotosOfTopic={props.getPhotosOfTopic}
+        showNotification={props.showNotification}
+        getPhotos={props.getPhotos}
+        favorites={props.favorites}
       />
       <PhotoList
         photos={props.photos}

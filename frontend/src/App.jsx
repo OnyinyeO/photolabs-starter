@@ -10,7 +10,7 @@ const App = () => {
     updateToFavPhotoIds,
     setPhotoSelected,
     onClosePhotoDetailsModal,
-    getPhotosOfTopic,
+    getPhotos,
   } = useApplicationData();
 
   return (
@@ -21,19 +21,20 @@ const App = () => {
         favorites={state.favorites}
         clickedPhoto={state.clickedPhoto}
         toggleFavorite={updateToFavPhotoIds}
-        toggleNotification={state.isNotificationActive}
+        showNotification={state.showNotification}
         toggleModal={setPhotoSelected}
-        getPhotosOfTopic={getPhotosOfTopic}
+        getPhotos={getPhotos}
       />
-      {/* { { {state.clickedPhoto.length > 0 && (
+      {/* {state.clickedPhoto.length > 0 && (
         <PhotoDetailsModal
           clickedPhoto={state.clickedPhoto}
           toggleModal={onClosePhotoDetailsModal}
           favorites={state.favorites}
           toggleFavorite={updateToFavPhotoIds}
         />
-      )} } } */}
+      )} */}
     </div>
   );
 };
+
 export default App;
