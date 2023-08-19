@@ -1,90 +1,99 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 
 const BaseUrl = 'http://localhost:8001';
 
-const useApplicationData = () => {
-  const [photoData, setPhotoData] = useState([]);
-  const [topicData, setTopicData] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [clickedPhoto, setClickedPhoto] = useState([]);
-  const [selectedTopic, setSelectedTopic] = useState([]);
+const initialState = {
+  photoData: [],
+  topicData: [],
+  favorites: [],
+  clickedPhoto: [],
+  selectedTopic: [],
+  showNotification: false,
+};
 
-  // filter photos
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_PHOTO_DATA':
+      return { ...state, photoData: action.payload };
+    case 'SET_TOPIC_DATA':
+      return { ...state, topicData: action.payload };
+    case 'SET_FAVORITES':
+      return {
+        ...state,
+        favorites: action.payload,
+        showNotification: action.payload.length > 0,
+      };
+    case 'SET_CLICKED_PHOTO':
+      return { ...state, clickedPhoto: action.payload };
+    case 'SET_SELECTED_TOPIC':
+      return { ...state, selectedTopic: action.payload };
+    default:
+      return state;
+  }
+};
+
+const useApplicationData = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const addToFavPhotos = (id) => {
-    if (favorites.includes(id)) {
-      const result = favorites.filter((item) => item !== id);
-      setFavorites(result);
+    if (state.favorites.includes(id)) {
+      const result = state.favorites.filter((item) => item !== id);
+      dispatch({ type: 'SET_FAVORITES', payload: result });
     } else {
-      setFavorites([...favorites, id]);
+      dispatch({ type: 'SET_FAVORITES', payload: [...state.favorites, id] });
     }
   };
 
   const setPhotoSelected = (id) => {
-    if (clickedPhoto.length > 0) {
-      setClickedPhoto([]);
+    if (state.clickedPhoto.length > 0) {
+      dispatch({ type: 'SET_CLICKED_PHOTO', payload: [] });
     } else {
-      const result = photoData.filter((photo) => photo.id === id);
-      setClickedPhoto(result);
+      const result = state.photoData.filter((photo) => photo.id === id);
+      dispatch({ type: 'SET_CLICKED_PHOTO', payload: result });
     }
   };
 
-  // get photos from backend
-
   const getPhotos = (topicID) => {
     if (topicID === 'logo') {
-      setSelectedTopic([]);
+      dispatch({ type: 'SET_SELECTED_TOPIC', payload: [] });
     } else {
-      setSelectedTopic([topicID]);
+      dispatch({ type: 'SET_SELECTED_TOPIC', payload: [topicID] });
     }
   };
 
   useEffect(() => {
-    if (selectedTopic.length === 0) {
-      // Fetch all photos when no specific topic is selected
+    if (state.selectedTopic.length === 0) {
       fetch(`${BaseUrl}/api/photos`)
         .then((response) => response.json())
         .then((data) => {
-          setPhotoData([...data]);
+          dispatch({ type: 'SET_PHOTO_DATA', payload: data });
         })
         .catch((error) => {
           console.error('Error fetching photos:', error);
         });
     } else {
-      // Fetch photos based on the selected topic
-      fetch(`${BaseUrl}/api/topics/photos/${selectedTopic[0]}/`)
+      fetch(`${BaseUrl}/api/topics/photos/${state.selectedTopic[0]}/`)
         .then((response) => response.json())
         .then((data) => {
-          setPhotoData([...data]);
+          dispatch({ type: 'SET_PHOTO_DATA', payload: data });
         })
         .catch((error) => {
           console.error('Error fetching topic-specific photos:', error);
         });
     }
-  }, [selectedTopic]);
+  }, [state.selectedTopic]);
 
-  //get topics from backend
   useEffect(() => {
     fetch(`${BaseUrl}/api/topics`)
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        setTopicData([...data]);
+        dispatch({ type: 'SET_TOPIC_DATA', payload: data });
       })
       .catch((e) => console.error('There was an error', e));
-  }, [topicData]);
+  }, []);
 
-  //when close button on modal is clicked, clear clickedPhoto array.
   const onClosePhotoDetailsModal = () => {
-    setClickedPhoto([]);
-  };
-
-  const state = {
-    favorites,
-    clickedPhoto,
-    showNotification: favorites.length > 0,
-    photoData,
-    topicData,
+    dispatch({ type: 'SET_CLICKED_PHOTO', payload: [] });
   };
 
   return {
