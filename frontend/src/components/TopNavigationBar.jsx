@@ -1,23 +1,32 @@
 import React from 'react';
-import FavIcon from './FavIcon';
+import PropTypes from 'prop-types';
 import TopicList from 'components/TopicList';
 import '../styles/TopNavigationBar.scss';
 
-const TopNavigation = (props) => {
-  const { showNotification, getPhotos } = props;
-
+const TopNavigation = ({ getPhotos, topics, showNotification, favorites }) => {
   return (
     <div className='top-nav-bar'>
       <p className='top-nav-bar__logo' onClick={() => getPhotos('logo')}>
         PhotoLabs
       </p>
-      <TopicList topics={props.topics} getPhotos={getPhotos} />
-      <div className={`fav-badge ${showNotification ? 'active' : ''}`}>
-        <FavIcon displayAlert={showNotification} selected={showNotification} />
-        {showNotification && <span>{props.favorites.length}</span>}
+      <div>
+        <TopicList
+          topics={topics}
+          getPhotos={getPhotos}
+          showNotification={showNotification}
+          favorites={favorites}
+        />
       </div>
     </div>
   );
+};
+
+// Define prop type validations
+TopNavigation.propTypes = {
+  showNotification: PropTypes.bool.isRequired,
+  getPhotos: PropTypes.func.isRequired,
+  topics: PropTypes.array.isRequired,
+  favorites: PropTypes.array.isRequired,
 };
 
 export default TopNavigation;
