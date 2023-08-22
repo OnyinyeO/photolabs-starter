@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import PhotoFavButton from 'components/PhotoFavButton';
 import PhotoList from 'components/PhotoList';
 import '../styles/PhotoDetailsModal.scss';
@@ -8,7 +9,11 @@ import '../styles/PhotoListItem.scss';
 const PhotoDetailsModal = (props) => {
   const { clickedPhoto, expandModal, favorites, toggleFavorite } = props;
 
-  const similarPhotos = clickedPhoto[0]?.similarPhotos ?? [];
+  // Extract the first photo from clickedPhoto array (if available)
+  const mainPhoto = clickedPhoto[0];
+  console.log(mainPhoto, 'main photo');
+  // Extract similarPhotos array from the first photo (if available)
+  const similarPhotos = mainPhoto?.similar_photos || [];
 
   return (
     <div className='photo-details-modal'>
@@ -21,30 +26,36 @@ const PhotoDetailsModal = (props) => {
         <div className='photo-details-modal__image-container'>
           <span>
             <PhotoFavButton
-              selected={favorites.includes(clickedPhoto[0]?.id)}
-              onClick={() => toggleFavorite(clickedPhoto[0]?.id)}
+              selected={favorites.includes(mainPhoto?.id)}
+              onClick={() => toggleFavorite(mainPhoto?.id)}
             />
           </span>
           <img
             className='photo-details-modal__image'
-            src={clickedPhoto[0]?.urls.full}
+            src={mainPhoto?.urls.full}
             alt='photo-image'
           />
         </div>
-
-        <div>
-          <h4 className='photo-details-modal__header'>Similar Photos</h4>
-          <PhotoList
-            photos={similarPhotos}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            clickedPhoto={clickedPhoto}
-            expandModal={expandModal}
-          />
-        </div>
+        <h4 className='photo-details-modal__header'>Similar Photos</h4>
+        <PhotoList
+          className='photo-details-modal--images'
+          photos={similarPhotos}
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+          clickedPhoto={clickedPhoto}
+          expandModal={expandModal}
+        />
       </div>
     </div>
   );
+};
+
+// Define prop type validations
+PhotoDetailsModal.propTypes = {
+  clickedPhoto: PropTypes.array.isRequired,
+  expandModal: PropTypes.func.isRequired,
+  favorites: PropTypes.array.isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
 };
 
 export default PhotoDetailsModal;
