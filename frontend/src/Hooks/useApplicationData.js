@@ -1,7 +1,5 @@
 import { useEffect, useReducer } from 'react';
 
-const BaseUrl = 'http://localhost:8001';
-
 const initialState = {
   photoData: [],
   topicData: [],
@@ -63,7 +61,7 @@ const useApplicationData = () => {
 
   useEffect(() => {
     if (state.selectedTopic.length === 0) {
-      fetch(`${BaseUrl}/api/photos`)
+      fetch(`/api/photos`)
         .then((response) => response.json())
         .then((data) => {
           dispatch({ type: 'SET_PHOTO_DATA', payload: data });
@@ -72,7 +70,7 @@ const useApplicationData = () => {
           console.error('Error fetching photos:', error);
         });
     } else {
-      fetch(`${BaseUrl}/api/topics/photos/${state.selectedTopic[0]}/`)
+      fetch(`/api/topics/photos/${state.selectedTopic[0]}/`)
         .then((response) => response.json())
         .then((data) => {
           dispatch({ type: 'SET_PHOTO_DATA', payload: data });
@@ -84,7 +82,7 @@ const useApplicationData = () => {
   }, [state.selectedTopic]);
 
   useEffect(() => {
-    fetch(`${BaseUrl}/api/topics`)
+    fetch(`/api/topics`)
       .then((response) => response.json())
       .then((data) => {
         dispatch({ type: 'SET_TOPIC_DATA', payload: data });
