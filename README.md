@@ -5,7 +5,7 @@ PhotoLabs is a React-based single-page application (SPA) that allows users to vi
 # Screenshots
 
 ![Home Image](./docs/home-page.png)
-![FilterImage](./docs/nature.png)
+![FilterImage](./docs/filter.png)
 ![Modal Image](./docs/modal.png)
 
 ## Setup
